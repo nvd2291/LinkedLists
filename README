@@ -1,0 +1,208 @@
+Title: HW2: CharLinkedLists
+Author: Naveed Naeem 
+UTLN: nnaeem01
+
+Purpose: 
+----------------------
+The purpose of this program is to allow the user to easily create and
+modify a doubly linked list structure that stores character values at each
+node.
+
+Acknowledgements: 
+----------------------
+Matthew Russell, Folks who posted on Piazza to help clarify 
+aspects of the assignment
+Web Resources:
+https://www.opendatastructures.org/ods-cpp/3_2_Doubly_Linked_List.html
+https://www.geeksforgeeks.org/data-structures/linked-list/doubly-linked-list/
+
+
+Files Provided:
+----------------------
+    - CharLinkedList.h: 
+        - Contains the full class definition of the CharLinkedList class
+        - Contains the defintions of private member functions and helper 
+          functions
+
+    - CharLinkedList.cpp:
+        - Contains the public method definitions for all functions that were 
+          outlined in the assignment
+        - Each public method contains a function contract describing what it 
+          does
+    
+    - unit_tests.cpp:
+        - Contains the unit tests that were written to verify the functionality
+          of each function
+        - Each tests contains a brief description of what it's testing
+    
+    - Makefile:
+        - Contains the instructions the compiler needs to use in order to
+        build the different parts of the program.
+        - I added *.dSYM to the clean command
+    
+    - README: 
+        - THIS file. Contains answers to all the questions asked in the README
+        Outline
+    
+How to Compile and Run:
+----------------------
+    - To compile the program you can run the "make" command in your terminal.
+      This will compile and link all the files for running the "units_tests"
+      program by default. To make the timer program type "make timer" in your
+      terminal.
+    - To run the unit tests program type "./unit_tests" in the terminal
+
+    - The Makefile has several options for what it should build. Take a look
+      there for how to build certain items.
+
+Data Structures Outline:
+----------------------
+    Doubly Linked List:
+        - Advantages:
+            - Bidirectional traversal:
+                Unlike a singly-linked list the doubly linked list can be 
+                traversed from the front AND the back of the list. Also
+                in the case of the my CharLinkedList If
+            - Insertion/Deletion:
+                Unlike a traditional array list it's much easier to insert
+                and delete elements in the middle of the linked list since
+                there's no need to all the elements stored to the left or
+                the right. The associated node is either allocated or
+                deleted and the associated next and previous node pointers
+                are update accordingly
+            - Memory Allocation:
+                It's easier to allocate and deallocate memory for a doubly
+                linked list when compared with a traditional array list because
+                if the linked list needs to expand then only a single new Node
+                is allocated and inserted where appropriate. For an array list
+                a new block of memory needs to be allocated on the head, the 
+                elements from the old block of memory needs to be copied
+                then the old block of memory needs to be freed from the heap
+                and the pointer to data array needs to be update to the
+                location of the new block of memory on the heap
+        - Disdvantages:
+            - Accessing middle elements:
+                Unlike the Array List, elements in the doubly linked list
+                can't be accessed directly by index. Instead the list needs
+                to be traversed. Worst case this can take O(n) time rather
+                than of O(1) for an array list
+            - Increased Memory Requirements:
+                Each element in the doubly linked list needs to keep track
+                of its previous and next node pointers it requires more
+                memory to implement than the traditional array list
+            - Increased complexity:
+                Since there are more operations that need to take place
+                in order to update elements in a doubly linked list
+                (i.e. the pointers need to be properly modified) it makes
+                it hard to perform actions such are sorting, reversing, etc.
+                than a traditional array list where you only need to keep track
+                of the elements index.
+
+Algorithm's Used:
+----------------------
+    - Linear Search:
+        - A modified version of linear search was used to implement the 
+        insertInOrder() method
+
+Testing Methodology:
+----------------------
+    - I wrote explicit tests to test every public method function.
+        - Certain methods (e.g. pushAtBack/Front) were tested in pairs.
+    - Test conditions tested for specific scenarios that would cause errors. 
+    These include instances such as doubly linked lists of size 0, indices
+    out of range (<0 or greater than listSize - 1), large, medium, small
+    doubly linked list sizes, etc.
+    - For testing expected behavior of lists I primarly used both empty lists,
+    single-element lists and lists that contained all the characters of the
+    lower-case alphabet since the behavior is easy to predict based on the 
+    specific test. Additionally for certain testing I used a palindrome
+    
+    Steps Taken in Testing:
+    - Write a test for invalid cases for a given function and write a test 
+    for valid cases for a given function.
+    - Call "make unit_tests" to make sure the program compiles.
+    - Run ./unit_tests to make sure no assertions fail locally.
+        - Iterate functionality to fix any issues.
+    - Repeat the make on Halligan servers.
+    - Repeat running on Halligan servers but also use valgrind.
+        - Fix and memory leak, segfault issues and repeat.
+    - Repeat for each public class method.
+
+    Debugging: For issues not obviously wrong I would debug the specific test 
+    case that was giving me issues. I was able debug files using the C/C++
+    extension tools in the VS Code extensions.
+
+Estimated Time Taken:
+----------------------
+    - Approximately 19 hours, +- and 1 Hour
+
+Timer Questions:
+----------------------
+1. 
+    Operation Times when run on the Halligan Servers:
+
+    Insertion: 
+    - pushAtFront: 3760 nS
+    - pushAtBack: 2580 nS
+    - insertAt middle of list: 2650070 nS
+    Removal:
+    - popFromBack: 2300 nS
+    - popFromFront: 2261 nS
+    - removeAt middle of list: 3224065 nS
+    Access:
+    - first(): 737 nS
+    - last(): 726 nS
+    - elementAt() middle of list: 5990894;
+
+2.  Access of the first and last element was the fastest operation because my
+    CharLinkedList class has pointers to the front and back nodes so the 
+    linked list never has to be traversed to access these elements. The 
+    elementAt() calls probably took the longest because they were recursive 
+    and each call gets pushed onto the stack and then gets popped off. This is
+    more operationally intensive than just access by index (removeAt middle 
+    and insertAt middle are done through traversal without recursion).
+    Unsurprisingly, inserting and removing at the middle of a linked list takes
+    significantly more time than modifying the front and back of the list.
+    The program has to traverse the linked list to get the desired node since
+    it can't be accessed directly.
+    
+3.  The following is faster for Array Lists:
+    - Accessing or updating elements by index is faster (O(1) time complexity)
+    since the array list is stored in a contiguous block of memory
+    - Inserting or deleting elements add the end of the list is quicker since
+    it doesn't require shifting the other elements
+
+    The following is faster for Linked Lists:
+    - Inserting or deleting elements at the front of the list is faster because
+     the other elements don't need to be shifted. 
+    - Inserting or deleting elements at the back of a doubly linked lists is
+    also generally faster since there aren't cases where the allocated array
+    need to be expanded and copied.
+
+Questions:
+----------------------
+
+1.  Functions to insert or delete elements are the front were easier to
+    since the other elements in the list didn't need to be shifted to the left
+    or right. The only thing that had to be updated were the pointer to the new
+    front and the old front node. Additionally, inserting elements in the 
+    middle and back of the linked list were slightly easier because there's
+    no need to allocate a whole new block of memory, copy the elements, and 
+    free the old block of memory. Then shifting all the elements to maintain
+    the desired positions. All you had to do is traverse the linked list until 
+    you get to the element you want and insert or delete a node as needed.
+2.  Functions that were harder to implement for linked lists were ones that 
+    involved accessing or updating an element by index since linked lists 
+    don't allow for this. Additionally it was slightly harder to implement 
+    the functions that involved strings since you have to loop through the 
+    nodes rather than just directly accessing the character. 
+3.  To switch from CharArrayList to CharLinkedLists they'd have to update the
+    underlying data structure of an array to a list of nodes. Each node 
+    contains a character value, a pointer to the next node, and a pointer to
+     the previous node. The client would have to modify the syntax for account
+     for the node structure and the fact that they no longer have direct access
+     to any element in the linked list other than the front and back elements
+     of the linked list. Insertion and removal functions need to account for
+     proper updating of the pointers to each node in the list but they no
+     longer have to worry about shifting any of the elements other then the
+     previous and next nodes.
